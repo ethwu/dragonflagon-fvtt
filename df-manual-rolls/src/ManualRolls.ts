@@ -37,6 +37,7 @@ export default class ManualRolls {
 	}
 
 	private static async _Roll_evaluate(this: Roll, wrapper: (arg: any) => any, { minimize = false, maximize = false } = {}): Promise<Roll> {
+		console.log('evaluate ' + this);
 		// Ignore Min/Max requests and if we are disabled
 		if (!ManualRolls.shouldRollManually || minimize || maximize) {
 			return wrapper({ minimize, maximize });
@@ -67,6 +68,9 @@ export default class ManualRolls {
 		const rollPrompt = new RollPrompt({}, this.options.flavor ? { title: this.options.flavor } : {});
 
 		for (const term of this.terms) {
+			console.log('is a diceterm?', term instanceof DiceTerm);
+			console.log('is a poolterm?', term instanceof PoolTerm);
+			console.dir(term);
 			if (!(term instanceof DiceTerm)) continue;
 			(<any>term).rollPrompt = rollPrompt;
 		}
